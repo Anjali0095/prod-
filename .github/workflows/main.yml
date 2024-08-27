@@ -3,27 +3,28 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - master  # Trigger the workflow on pushes to the `main` branch
+      - master  # Trigger the workflow on pushes to the `master` branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-    - name: Deploy to EC2
-      run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
-          cd /home/ubuntu/prod- || exit
-          git pull origin master || exit
-          npm install || exit
-          npm run build || exit
-          # Add any additional deployment commands here
-        EOF
+      - name: Deploy to EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+            cd /home/ubuntu/prod- || exit
+            git pull origin master || exit
+            npm install || exit
+            npm run build || exit
+            # Add any additional deployment commands here
+            exit
+          EOF
