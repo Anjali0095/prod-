@@ -21,14 +21,14 @@ jobs:
       - name: Deploy to EC2
         run: |
           # Connect to EC2 instance and run deployment commands
-          ssh -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
             echo "Deploying application..."
 
             # Navigate to the project directory
-            cd /home/ubuntu/prod-
+            cd /root/.ssh/prod-
 
             # Pull the latest changes from your repository
-            git pull origin main
+            git pull origin master
 
             # Install dependencies
             npm install
