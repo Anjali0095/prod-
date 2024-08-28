@@ -32,9 +32,11 @@ jobs:
 
         # Deploy
         ssh $USER@$HOST << 'EOF'
-          cd /path/to/your/app
+          cd /home/ubuntu/prod-
           git pull origin master
           npm install
           npm run build # If needed
-          pm2 restart your-app-name # Or any other process manager
+          pm2 delete react-app # Or any other process manager
+          pm2 start npm --name "react-app" -- start
+
         EOF
