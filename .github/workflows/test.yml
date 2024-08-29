@@ -1,0 +1,49 @@
+name: Deploy to Backend to Prod Environment
+
+on:
+  push:
+    branches:
+      - prod
+
+jobs:
+  deploy_web_app:
+    runs-on: ubuntu-latest
+    environment: Prod
+    strategy:
+      matrix:
+        max-parallel: [2]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Add public IP to AWS security group for Web App
+        uses: sohelamin/aws-security-group-add-ip-action@master
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'ap-south-1'
+          aws-security-group-id: 'sg-0dca6a1d53a2bd555'
+          port: '22'
+          to-port: '22'
+          protocol: 'tcp'
+          description: 'GitHub Action'
+
+      - name: Configure SSH for Web App
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "StrictHostKeyChecking no" > ~/.ssh/config
+
+      - name: Deploy code to Web App
+        run: 
+          ssh ubuntu@${{ secrets.SSH_HOST }} "cd /home/ubuntu/prod- && git stash && git pull && npm install && npm rum build 
+
+      - name: Deployment complete
+        run: |
+           echo "------------------------------------"
+           echo "|                                  |"
+           echo "|       🚀 Deployment Complete      |"
+           echo "|                                  |"
+           echo "------------------------------------"
