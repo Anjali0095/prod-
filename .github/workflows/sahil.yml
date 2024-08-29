@@ -24,7 +24,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: 'us-east-1'
-          aws-security-group-id: 'sg-009af37a2d44bf563'
+          aws-security-group-id: 'sg-0dca6a1d53a2bd555'
           port: '22'
           to-port: '22'
           protocol: 'tcp'
