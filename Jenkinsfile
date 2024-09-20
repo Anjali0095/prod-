@@ -5,7 +5,7 @@ pipeline {
         NODE_ENV = 'production'
         DEPLOY_USER = 'ubuntu'
         DEPLOY_HOST = '3.109.181.21'
-        DEPLOY_PATH = '/home/ubuntu/Jenkins' // Remote path where the app will be deployed
+        DEPLOY_PATH = '/home/ubuntu/jenkins' // Remote path where the app will be deployed
         SSH_KEY = credentials('your-ssh-key-id') // Jenkins credential ID for SSH key
     }
 
